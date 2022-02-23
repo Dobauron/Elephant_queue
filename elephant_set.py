@@ -10,10 +10,17 @@ def excel(row, col):  # Function used to connect with excel file
 def zoo():  # function contain loop which taking data from excel sheet and
     # transfer them into list of elephant class object's
     list_elephant = []
+    list_set_elephant = []
     for row in range(1, excel(2, 1)+1):
         eleph = Elephant(row, excel(row+1, 2), excel(row+1, 3), excel(row+1, 4))
         list_elephant.append(eleph)
-    return list_elephant
+
+    for i in range(1, len(list_elephant)+1):
+        for ele in list_elephant:
+            if ele.current_position == i:
+                list_set_elephant.append(ele)
+
+    return list_set_elephant
 
 
 class Elephant(object):
@@ -40,8 +47,8 @@ def sequence_setup(elephant1, elephant2):    # Function which geting two elephan
     #  summary their mass and add them into Elephant.sequence - dictionary, wher
     #  key = mass of both object, value = list of both elephant's current postion
     total_move_mass = elephant1.mass + elephant2.mass
-    from_to_postion_move = [elephant1.current_position, elephant2.current_position]
-    Elephant.sequence[total_move_mass] = from_to_postion_move  # Add to Elephant.sequence - class attribute
+    pair_of_elephant = [elephant1.number, elephant2.number]
+    Elephant.sequence[total_move_mass] = pair_of_elephant  # Add to Elephant.sequence - class attribute
 
 
 def elephant_swap():  # Function which return list of position two elephant with the smallest mass to move
@@ -51,9 +58,9 @@ def elephant_swap():  # Function which return list of position two elephant with
 
 
 def main():
-
     elephants = zoo()  # list of objects elephant class
-
+    for i in elephants:
+        print(i)
     for i in range(len(elephants)):  # Main loop to repeat whole sequence
         for ele in elephants:  # Loop for choose elephant which are not on boss recomended spot
             if ele.current_position == ele.demanded_postion:
@@ -63,15 +70,15 @@ def main():
                                         # as boss recomended spot for first elephant
                     if ele2.current_position == ele.demanded_postion:
                         sequence_setup(ele, ele2)  # Both objects of class elephant are sended to function - 'queue_setup'
-
+        print(Elephant.sequence)
 
         for el in elephants:  # Loop for exchange position of elephants with the smallest mass value
             if elephant_swap() is not None:
-                if el.current_position == elephant_swap()[0]:
+                if el.number == elephant_swap()[0]:
                     el.current_position = elephant_swap()[1]
 
                     el.move()  # add mass of first elephant into the Elephant.Total_mass
-                elif el.current_position == elephant_swap()[1]:
+                elif el.number == elephant_swap()[1]:
                     el.current_position = elephant_swap()[0]
 
                     el.move()  # add mass of el into the Elephant.Total_mass
@@ -80,6 +87,6 @@ def main():
             Elephant.sequence = {}  # After each elephant position exchange, reset Elephant.sequence for
                                     # create new sequence of demanded moves and their mass cost
 
-
+        print(Elephant.Total_mass)
 main()
 print(Elephant.Total_mass)
