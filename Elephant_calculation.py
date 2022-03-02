@@ -30,7 +30,7 @@ def list_boss_and_basic_creator():  # function contain loop which taking data fr
     list_elephant = []  # list of elephant class object's
     non_boss_list = convert_data_from_file(get_file_data()[2])  # list of basic elephant setup
 
-    for row in range(1, convert_data_from_file(get_file_data()[0])[0]):
+    for row in range(1, convert_data_from_file(get_file_data()[0])[0]+1):
         eleph = Elephant(row, convert_data_from_file(get_file_data()[1])[row-1]) # object creation, according excel sheet, argument(mass, number)
 
         list_elephant.append(eleph)  # list of elephant object
